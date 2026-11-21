@@ -424,6 +424,25 @@ def load_preset(scenario_key):
 # ==============================================================================
 # DASHBOARD HEADER & LIVE METRICS
 # ==============================================================================
+with st.sidebar:
+    st.markdown("### 👥 Project Team")
+    st.markdown("""
+    **Ayush Jugseniye**  
+    PRN: `202401040128` • Roll No: `32`  
+    *(Group Representative)*
+
+    **Tejas Jaju**  
+    PRN: `202401040124` • Roll No: `29`
+
+    **Haider Shikalgar**  
+    PRN: `202401040272` • Roll No: `70`
+    """)
+    st.markdown("---")
+    st.markdown("### 🔗 Project Source Code")
+    st.markdown("[GitHub Repository ↗](https://github.com/Ayush1702j/OS_PROJECT.git)")
+    st.markdown("---")
+    st.caption("Operating Systems • Practical Activity 2\nDeadlock Analysis & Resource Management Suite")
+
 st.markdown("""
 <div class="app-header">
     <div class="app-badge">OS KERNEL CONCURRENCY ENGINE</div>

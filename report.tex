@@ -1,0 +1,245 @@
+\documentclass[11pt,a4paper]{article}
+
+% --- Essential Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{xcolor,colortbl}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage[colorlinks=true,linkcolor=blue!80!black,urlcolor=blue!80!black,citecolor=blue!80!black]{hyperref}
+\usepackage{tcolorbox}
+\usepackage{microtype}
+
+% --- Color Definitions ---
+\definecolor{headerblue}{RGB}{24, 43, 73}
+\definecolor{accentblue}{RGB}{37, 99, 235}
+\definecolor{lightgray}{RGB}{248, 250, 252}
+\definecolor{bordergray}{RGB}{226, 232, 240}
+\definecolor{successgreen}{RGB}{16, 185, 129}
+\definecolor{alertred}{RGB}{239, 68, 68}
+
+% --- Header and Footer Styling ---
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\footnotesize \textcolor{gray}{OS Activity 2: Deadlock Analysis \& Dashboard}}
+\lhead{\footnotesize \textcolor{gray}{B.Tech CSE --- Operating Systems Laboratory}}
+\rfoot{\footnotesize Page \thepage}
+\lfoot{\footnotesize \textcolor{gray}{Ayush Jugseniye $\cdot$ Tejas Jaju $\cdot$ Haider Shikalgar}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% --- Section Heading Formatting ---
+\titleformat{\section}
+  {\color{headerblue}\normalfont\large\bfseries}
+  {\thesection.}{0.5em}{}[\titlerule]
+
+\titleformat{\subsection}
+  {\color{accentblue}\normalfont\normalsize\bfseries}
+  {\thesubsection.}{0.4em}{}
+
+% --- Custom Table Commands ---
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\begin{document}
+
+% --- Title Block ---
+\begin{center}
+    {\Large\bfseries\color{headerblue} STUDENT GROUP ACTIVITY REPORT}\\[4pt]
+    {\large\bfseries Operating Systems -- Activity 2}\\[2pt]
+    {\normalsize\color{accentblue}\textbf{AI-Assisted Dashboard Development and Deadlock Analysis}}\\[6pt]
+    \rule{\textwidth}{1pt}
+\end{center}
+
+% ==============================================================================
+% SECTION 1: GROUP INFORMATION
+% ==============================================================================
+\section{Group Information}
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|L{4.5cm}|X|}
+\hline
+\rowcolor{lightgray}
+\textbf{Division / Group} & B.Tech Computer Science \& Engineering (Second Year / Third Year) \\
+\hline
+\rowcolor{lightgray}
+\textbf{Dashboard / Project Title} & \textbf{Deadlock Analysis \& Resource Management System} \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|C{1.5cm}|C{4.5cm}|L{6cm}|L{3.5cm}|}
+\hline
+\rowcolor{headerblue}
+\textcolor{white}{\textbf{Sr. No.}} & \textcolor{white}{\textbf{PRN}} & \textcolor{white}{\textbf{Student Name}} & \textcolor{white}{\textbf{Roll No. / Role}} \\
+\hline
+1 & \textbf{202401040128} & \textbf{Ayush Jugseniye} & Roll No. 32 (Lead) \\
+\hline
+2 & \textbf{202401040124} & \textbf{Tejas Jaju} & Roll No. 29 (Member) \\
+\hline
+3 & \textbf{202401040272} & \textbf{Haider Shikalgar} & Roll No. 70 (Member) \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ==============================================================================
+% SECTION 2: PROJECT LINKS & DESCRIPTION
+% ==============================================================================
+\section{Project Links and System Overview}
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|L{5cm}|X|}
+\hline
+\rowcolor{lightgray}
+\textbf{Required Submission} & \textbf{Link / File Name} \\
+\hline
+\textbf{Working Dashboard} & Local Streamlit Execution: \texttt{http://localhost:8501} (\texttt{python -m streamlit run app.py}) \\
+\hline
+\textbf{Complete Source Code} & \textbf{GitHub Repository:} \href{https://github.com/Ayush1702j/OS_PROJECT.git}{https://github.com/Ayush1702j/OS\_PROJECT.git} \\
+\hline
+\end{tabularx}
+\end{table}
+
+\paragraph{Brief Description of Dashboard Functionality (2--3 Sentences):}
+The developed suite is an interactive Operating Systems kernel simulation implementing all four classical deadlock handling paradigms: Avoidance, Prevention, Detection, and Recovery. It features a complete Banker's Algorithm engine with dynamic matrix manipulation, automatic Need calculation, step-by-step Work vector logging, and a 4-state request dispatcher (Granted, Waiting, Denied/Rolled Back, and Invalid). Furthermore, it incorporates a Shoshani-Coffman multi-instance deadlock detection algorithm, an interactive vector Resource Allocation Graph (RAG) with cycle rendering, process preemption recovery, and a policy enforcement sandbox.
+
+% ==============================================================================
+% SECTION 3: TEST-CASE ANALYSIS
+% ==============================================================================
+\section{Analytical Evaluation of Deadlock Test Cases}
+
+\begin{table}[h!]
+\centering
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{|C{0.9cm}|L{2.8cm}|L{3.2cm}|L{3.8cm}|X|}
+\hline
+\rowcolor{headerblue}
+\textcolor{white}{\textbf{ID}} & \textcolor{white}{\textbf{Test Scenario}} & \textcolor{white}{\textbf{Expected Result}} & \textcolor{white}{\textbf{Actual Result / Evidence}} & \textcolor{white}{\textbf{Analysis / Conclusion}} \\
+\hline
+\textbf{TC1} & Safe State & Safe sequence found & Safe Sequence generated: $\langle P_1 \to P_3 \to P_4 \to P_0 \to P_2 \rangle$ & Work vector satisfies all process claims sequentially; system is guaranteed safe. \\
+\hline
+\textbf{TC2} & Request exceeds Available & Not granted immediately; allocation unchanged & Status: \texttt{WAITING / DEFERRED} (Allocations unchanged) & Request is within Need ($[0,4,1] \le [7,4,3]$), but exceeds Available ($4 > 3$). Handled by thread queuing. \\
+\hline
+\textbf{TC3} & Request makes state unsafe & Request denied; original state retained & Status: \texttt{DENIED \& ROLLED BACK} (State preserved) & Request $[3,3,0] \le \text{Avail}$, but leaves $\text{Avail}'=[0,0,2]$. Zero processes can finish; rollback avoids unsafe state. \\
+\hline
+\textbf{TC4} & Deadlock detection & Deadlock identified by selected method & Deadlock confirmed for $\{P_0, P_1, P_2\}$; Aborting $P_2$ recovers & Detection flags circular dependency. Terminating $P_2$ releases $[1,1]$, unblocking $P_0$ and $P_1$. \\
+\hline
+\textbf{TC5} & Deadlock prevention & Selected necessary condition eliminated & Monotonic ordering enforced; backward request rejected & Global hierarchy $F(R_0) < F(R_1) < F(R_2)$ mathematically eliminates circular wait condition. \\
+\hline
+\textbf{TC6} & Boundary / invalid inputs & Correct processing / validation message & Validation error caught; execution halted safely & Negative requests and claims exceeding Maximum are rejected without corrupting kernel state. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{In-Depth Analytical Scenario Breakdowns}
+
+\paragraph{TC1: Need Matrix, Work Updates, and Safe Sequence:}
+\begin{itemize}[leftmargin=1.5em,noitemsep]
+    \item \textbf{System Configuration:} 5 Processes ($P_0$ to $P_4$), 3 Resources ($A, B, C$) with Total Resources: $A=10, B=5, C=7$.
+    \item \textbf{Available Vector:} $\text{Available} = [3, 3, 2]$.
+    \item \textbf{Allocation Matrix:}
+    $P_0: [0, 1, 0], \ P_1: [2, 0, 0], \ P_2: [3, 0, 2], \ P_3: [2, 1, 1], \ P_4: [0, 0, 2]$.
+    \item \textbf{Maximum Matrix:}
+    $P_0: [7, 5, 3], \ P_1: [3, 2, 2], \ P_2: [9, 0, 2], \ P_3: [2, 2, 2], \ P_4: [4, 3, 3]$.
+    \item \textbf{Calculated Need Matrix ($\text{Need} = \text{Maximum} - \text{Allocation}$):}
+    \begin{align*}
+        \text{Need}[P_0] &= [7, 4, 3], & \text{Need}[P_1] &= [1, 2, 2], & \text{Need}[P_2] &= [6, 0, 0], \\
+        \text{Need}[P_3] &= [0, 1, 1], & \text{Need}[P_4] &= [4, 3, 1]. & &
+    \end{align*}
+    \item \textbf{Work Vector Iteration Trace:}
+    \begin{enumerate}[noitemsep]
+        \item Initial $\text{Work} = [3, 3, 2]$.
+        \item $\text{Need}[P_1] = [1, 2, 2] \le [3, 3, 2] \implies P_1$ finishes. $\text{Work} = [3, 3, 2] + [2, 0, 0] = \mathbf{[5, 3, 2]}$.
+        \item $\text{Need}[P_3] = [0, 1, 1] \le [5, 3, 2] \implies P_3$ finishes. $\text{Work} = [5, 3, 2] + [2, 1, 1] = \mathbf{[7, 4, 3]}$.
+        \item $\text{Need}[P_4] = [4, 3, 1] \le [7, 4, 3] \implies P_4$ finishes. $\text{Work} = [7, 4, 3] + [0, 0, 2] = \mathbf{[7, 4, 5]}$.
+        \item $\text{Need}[P_0] = [7, 4, 3] \le [7, 4, 5] \implies P_0$ finishes. $\text{Work} = [7, 4, 5] + [0, 1, 0] = \mathbf{[7, 5, 5]}$.
+        \item $\text{Need}[P_2] = [6, 0, 0] \le [7, 5, 5] \implies P_2$ finishes. $\text{Work} = [7, 5, 5] + [3, 0, 2] = \mathbf{[10, 5, 7]}$.
+    \end{enumerate}
+    \item \textbf{Safe Sequence:} $\mathbf{\langle P_1, P_3, P_4, P_0, P_2 \rangle}$. The system is confirmed in a \textbf{Safe State}.
+\end{itemize}
+
+\paragraph{TC2--TC3: Request Vector, Resource Availability, and Reason for Denial / Unsafe Result:}
+\begin{itemize}[leftmargin=1.5em,noitemsep]
+    \item \textbf{TC2 (Waiting/Deferred):} Process $P_0$ requests $[0, 4, 1]$. While $[0, 4, 1] \le \text{Need}[0] ([7, 4, 3])$, the demand for resource $B$ is $4$, which exceeds $\text{Available}[B] = 3$. The kernel marks the request as \texttt{WAITING / DEFERRED}. The process sleeps in a wait queue; matrices remain strictly unchanged.
+    \item \textbf{TC3 (Unsafe State Denial):} Process $P_4$ requests $[3, 3, 0]$. Here $[3, 3, 0] \le \text{Need}[4] ([4, 3, 1])$ and $[3, 3, 0] \le \text{Available} ([3, 3, 2])$. The kernel temporarily simulates allocation, leaving $\text{Available}' = [0, 0, 2]$. Running the safety algorithm reveals that \textbf{no process} can satisfy its remaining need:
+    $P_0$ needs $[7,4,3]$, $P_1$ needs $[1,2,2]$, $P_2$ needs $[6,0,0]$, $P_3$ needs $[0,1,1]$, $P_4$ needs $[1,0,1]$.
+    All processes are blocked. The state is \textbf{UNSAFE}. The Banker's Algorithm denies the request and restores the original state.
+    \item \textit{Conceptual Note:} An unsafe state is not necessarily deadlocked; it simply means the operating system cannot guarantee safe completion if all processes claim maximum declared demands simultaneously.
+\end{itemize}
+
+\paragraph{TC4--TC5: Deadlock Relationships, Recovery, and Prevention Policies:}
+\begin{itemize}[leftmargin=1.5em,noitemsep]
+    \item \textbf{TC4 (Deadlock Detection \& Recovery):} Configured 3 processes ($P_0, P_1, P_2$) and 2 resources ($R_0, R_1$) with $\text{Available} = [0, 0]$.
+    $\text{Allocation} = [[1, 0], [0, 1], [1, 1]]$ and $\text{Request} = [[0, 1], [1, 0], [0, 1]]$.
+    The Shoshani-Coffman algorithm flags all 3 processes in mutual circular wait. Recovery is executed by aborting victim process $P_2$. Its allocation $[1, 1]$ is returned to the pool, allowing $P_0$ to finish, which in turn frees $[1, 0]$ for $P_1$.
+    \item \textbf{TC5 (Deadlock Prevention):} Imposed a strict linear resource hierarchy: $F(R_0) = 1, F(R_1) = 2, F(R_2) = 3$. Processes are only permitted to acquire resources of strictly increasing priority rank ($F(R_j) > F(R_i)$). When a thread holding $R_1$ attempted to acquire $R_0$, the system rejected the request ($1 \le 2$). Circular wait is mathematically impossible.
+\end{itemize}
+
+\paragraph{TC6: Boundary and Invalid Inputs Checked:}
+\begin{itemize}[leftmargin=1.5em,noitemsep]
+    \item Negative resource requests (e.g., $[-1, 0, 0]$) trigger immediate validation rejections.
+    \item Requests exceeding declared maximum need (e.g., $P_1$ requesting $[5, 0, 0]$ when $\text{Need}[1] = [1, 2, 2]$) are blocked before simulation.
+    \item Allocation entries exceeding maximum claims ($\text{Allocation} > \text{Maximum}$) are highlighted and disabled.
+    \item Zero available resources ($\text{Available} = [0, 0, 0]$) are handled gracefully by deferring all positive claims to the wait queue without crashing.
+\end{itemize}
+
+% ==============================================================================
+% SECTION 4: AI USAGE RECORD
+% ==============================================================================
+\section{AI Usage Record}
+
+\noindent\textbf{AI Tools Used:} Google Gemini / Antigravity AI Assistant\\
+\textbf{Estimated Overall AI Usage:} \textbf{45\%}\\
+\textbf{Basis of Estimate:} AI assisted with boilerplate Streamlit UI components, initial mathematical drafts of the Banker's safety loop, and generation of edge-case test matrices. Students designed system architecture, manually solved and verified all matrix equations on paper, debugged state rollback logic, and implemented the Graphviz RAG visualizer.
+
+\begin{table}[h!]
+\centering
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|L{3.2cm}|L{4.2cm}|L{3.6cm}|X|}
+\hline
+\rowcolor{headerblue}
+\textcolor{white}{\textbf{AI Tool}} & \textcolor{white}{\textbf{Exact Prompt Used}} & \textcolor{white}{\textbf{Generated Content}} & \textcolor{white}{\textbf{Student Verification / Changes}} \\
+\hline
+Google Gemini / Antigravity & \textit{"Generate Streamlit boilerplate with multi-tab layout and configurable dataframe matrix editors for Banker's Algorithm."} & Initial layout structure in \texttt{app.py} with \texttt{st.data\_editor} & Tailored UI layout; added custom CSS classes for status badges and sequence timelines. \\
+\hline
+Google Gemini / Antigravity & \textit{"Implement Banker's Safety Algorithm and Resource-Request algorithm in Python with Work vector logging and state rollback."} & Functions: \texttt{bankers\_safety\_algorithm} and \texttt{request\_resource} & Manually calculated TC1 and TC3 on paper; verified step-by-step Work vector equivalence. Fixed rollback deep-copy logic. \\
+\hline
+Google Gemini / Antigravity & \textit{"Provide Python logic for Shoshani-Coffman multi-instance deadlock detection and generate Graphviz DOT script for RAG visualization."} & Functions: \texttt{deadlock\_detection\_multi} and \texttt{generate\_rag\_dot} & Verified Graphviz DOT syntax; styled process nodes (blue circles), resource nodes (yellow boxes), and highlighted cycles in red. \\
+\hline
+Google Gemini / Antigravity & \textit{"Design comprehensive test scenarios (TC1 to TC6) covering safe state, deferred requests, unsafe requests, and boundary conditions."} & Matrix configurations for TC1 through TC6 in Tab 5 & Tested all scenarios in the active dashboard; confirmed outputs matched theoretical OS expectations. \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ==============================================================================
+% SECTION 5: SUBMISSION DECLARATION
+% ==============================================================================
+\section{Submission Declaration}
+
+\begin{tcolorbox}[colback=lightgray,colframe=bordergray,arc=4mm]
+We confirm that the links, source code, test-case results, AI usage percentage, and prompts reported above accurately represent our group submission. We have independently verified the correctness of the dashboard outputs and understand the complete implementation.
+\end{tcolorbox}
+
+\vspace{0.8cm}
+\noindent
+\begin{tabularx}{\textwidth}{X r}
+\textbf{Group Representative:} Ayush Jugseniye & \textbf{Date:} 21 November 2026 \\[1.2cm]
+\textbf{Signatures of Group Members:} & \\[0.6cm]
+1. \rule{5cm}{0.4pt} (Ayush Jugseniye) & \\[0.6cm]
+2. \rule{5cm}{0.4pt} (Tejas Jaju) & \\[0.6cm]
+3. \rule{5cm}{0.4pt} (Haider Shikalgar) & \\
+\end{tabularx}
+
+\end{document}
