@@ -11,7 +11,7 @@
 
 | Sr. No. | PRN / Roll No. | Student Name |
 | :---: | :---: | :--- |
-| **1** | 202401040128 / Roll No. 32 | **Ayush Jugseniye** (Group Representative) |
+| **1** | 202401040128 / Roll No. 32 | **Ayush Jugseniye**  |
 | **2** | 202401040124 / Roll No. 29 | **Tejas Jaju** |
 | **3** | 202401040272 / Roll No. 70 | **Haider Shikalgar** |
 
